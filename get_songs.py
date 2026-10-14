@@ -16,17 +16,23 @@ except (AttributeError, ValueError):
 MUSIC_DIR = r"C:\Users\wendy\Desktop\music"
 
 
-def main():
+def get_mp3_files(music_dir=MUSIC_DIR):
+    """扫描文件夹里的所有 .mp3 文件，返回排序后的文件名列表。"""
     # 文件夹不存在则创建
-    os.makedirs(MUSIC_DIR, exist_ok=True)
+    os.makedirs(music_dir, exist_ok=True)
 
     mp3_files = []
-    for name in os.listdir(MUSIC_DIR):
-        full_path = os.path.join(MUSIC_DIR, name)
+    for name in os.listdir(music_dir):
+        full_path = os.path.join(music_dir, name)
         if os.path.isfile(full_path) and name.lower().endswith(".mp3"):
             mp3_files.append(name)
 
     mp3_files.sort()
+    return mp3_files
+
+
+def main():
+    mp3_files = get_mp3_files()
 
     print(f"文件夹：{MUSIC_DIR}")
     print(f"共找到 {len(mp3_files)} 个 .mp3 文件：")
