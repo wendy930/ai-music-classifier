@@ -1,0 +1,50 @@
+{
+  "流行": [
+    {
+      "song": "For フルーツバスケット",
+      "artist": "岡崎律子"
+    },
+    {
+      "song": "WE LIKE 2 PARTY",
+      "artist": "BIGBANG"
+    },
+    {
+      "song": "deadman",
+      "artist": "蔡徐坤"
+    },
+    {
+      "song": "飞机场的1030",
+      "artist": "陶喆"
+    }
+  ],
+  "摇滚": [
+    {
+      "song": "ライラック",
+      "artist": "Mrs. GREEN APPLE"
+    }
+  ],
+  "爵士": [
+    {
+      "song": "丸ノ内サディスティック",
+      "artist": "椎名林檎"
+    }
+  ],
+  "纯音乐/器乐": [
+    {
+      "song": "三葉のテーマ",
+      "artist": "RADWIMPS"
+    }
+  ],
+  "电子": [
+    {
+      "song": "The world is listening",
+      "artist": "Akua Naru"
+    }
+  ],
+  "民谣": [
+    {
+      "song": "大人中",
+      "artist": "卢广仲"
+    }
+  ]
+}

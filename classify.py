@@ -6,6 +6,7 @@
 返回 JSON：{"流派名": [{"song": "纯歌名", "artist": "纯歌手名"}, ...], ...}
 """
 
+import os
 import sys
 import json
 
@@ -21,6 +22,7 @@ except (AttributeError, ValueError):
 
 BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
 MODEL = "qwen3.7-plus"
+RESULT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "classification.json")
 
 
 def strip_mp3_ext(name):
@@ -78,6 +80,10 @@ def main():
     print(f"共 {len(stems)} 首歌，正在让通义千问分类…")
 
     result = classify_songs(stems)
+
+    with open(RESULT_FILE, "w", encoding="utf-8") as f:
+        json.dump(result, f, ensure_ascii=False, indent=2)
+    print(f"[INFO] 分类结果已保存到 {RESULT_FILE}")
 
     print("=" * 60)
     print(json.dumps(result, ensure_ascii=False, indent=2))
