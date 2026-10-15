@@ -1,1 +1,10 @@
 config.py
+# Python缓存
+__pycache__/
+*.pyc
+
+# 密钥，禁止提交
+config.py
+
+# 运行输出结果（Demo运行现场生成，不存入仓库）
+classification.json

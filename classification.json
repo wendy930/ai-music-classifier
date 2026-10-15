@@ -1,50 +1,49 @@
 {
-  "流行": [
-    {
-      "song": "For フルーツバスケット",
-      "artist": "岡崎律子"
-    },
-    {
-      "song": "WE LIKE 2 PARTY",
-      "artist": "BIGBANG"
-    },
-    {
-      "song": "deadman",
-      "artist": "蔡徐坤"
-    },
-    {
-      "song": "飞机场的1030",
-      "artist": "陶喆"
-    }
+  "C:\\Users\\wendy\\Desktop\\music\\R&B\\飞机场的1030-陶喆-1.mp3": [
+    "R&B",
+    "华语流行"
   ],
-  "摇滚": [
-    {
-      "song": "ライラック",
-      "artist": "Mrs. GREEN APPLE"
-    }
+  "C:\\Users\\wendy\\Desktop\\music\\嘻哈\\WE LIKE 2 PARTY-BIGBANG.mp3": [
+    "嘻哈",
+    "R&B"
   ],
-  "爵士": [
-    {
-      "song": "丸ノ内サディスティック",
-      "artist": "椎名林檎"
-    }
+  "C:\\Users\\wendy\\Desktop\\music\\摇滚\\ライラック-Mrs. GREEN APPLE.mp3": [
+    "J-POP",
+    "流行摇滚",
+    "另类摇滚",
+    "动画歌曲"
   ],
-  "纯音乐/器乐": [
-    {
-      "song": "三葉のテーマ",
-      "artist": "RADWIMPS"
-    }
+  "C:\\Users\\wendy\\Desktop\\music\\民谣\\大人中-卢广仲.mp3": [
+    "民谣",
+    "流行"
   ],
-  "电子": [
-    {
-      "song": "The world is listening",
-      "artist": "Akua Naru"
-    }
+  "C:\\Users\\wendy\\Desktop\\music\\流行\\For フルーツバスケット-岡崎律子.mp3": [
+    "流行",
+    "动漫"
   ],
-  "民谣": [
-    {
-      "song": "大人中",
-      "artist": "卢广仲"
-    }
+  "C:\\Users\\wendy\\Desktop\\music\\流行\\丸ノ内サディスティック-椎名林檎.mp3": [
+    "流行",
+    "摇滚",
+    "爵士",
+    "放克",
+    "灵魂"
+  ],
+  "C:\\Users\\wendy\\Desktop\\music\\灵魂乐\\deadman - 蔡徐坤.mp3": [
+    "灵魂乐",
+    "蓝调",
+    "R&B",
+    "摇滚"
+  ],
+  "C:\\Users\\wendy\\Desktop\\music\\纯音乐\\RADWIMPS - 三葉のテーマ.mp3": [
+    "纯音乐",
+    "影视原声",
+    "新世纪",
+    "抒情"
+  ],
+  "C:\\Users\\wendy\\Desktop\\music\\说唱\\The world is listening - Akua Naru.mp3": [
+    "说唱",
+    "爵士",
+    "灵魂乐",
+    "节奏布鲁斯"
   ]
 }
