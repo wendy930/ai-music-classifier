@@ -14,6 +14,15 @@
 - Python 3.x
 - 依赖库：`mutagen`、`dashscope`
 
+## 技术栈
+
+- **编程语言**：Python 3
+- **AI 模型**：通义千问（qwen3.7-plus）
+- **AI 接口**：DashScope SDK（MultiModalConversation）
+- **音频处理**：mutagen（读取 MP3 元数据）
+- **版本管理**：Git + GitHub
+- **开发工具**：Claude Code,Deepseek（AI 辅助编程）
+
 ## 运行方式
 
 安装依赖：
