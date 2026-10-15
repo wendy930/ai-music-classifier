@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-"""根据 classify.py 生成的分类结果，把 music 里的歌曲移动到对应流派子文件夹。
+"""根据 classify.py 生成的 classification.json，把 music 里的歌曲移动到对应曲风子文件夹。
 
-用法：
-    1. python classify.py    # 生成 classification.json
-    2. python move_files.py          # 实际移动
-       python move_files.py --dry-run  # 先预览，不真正移动
+classification.json 格式：{"<完整 file_path>": ["曲风标签1", "曲风标签2", ...], ...}
 
-每个流派会在 music 文件夹下创建同名子文件夹，并把对应歌曲移动进去。
+- 取曲风数组的第一个标签作为目标文件夹名。
+- 自动创建对应风格文件夹，把歌曲剪切移动进去。
+- 源路径 == 目标路径时直接跳过；文件不存在或路径错误时打印警告并继续，不中断。
 """
 
 import os
@@ -15,8 +14,8 @@ import json
 import re
 import shutil
 
-from classify import RESULT_FILE, strip_mp3_ext
-from get_songs import get_mp3_files, MUSIC_DIR
+from classify import RESULT_FILE
+from get_songs import MUSIC_DIR
 
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -28,46 +27,12 @@ ILLEGAL_CHARS = r'[\\/:*?"<>|]'
 
 
 def safe_folder_name(name):
-    """把类别名清洗成合法的 Windows 文件夹名。"""
-    name = re.sub(ILLEGAL_CHARS, "_", name).strip().strip(".")
+    """把曲风标签清洗成合法的 Windows 文件夹名。"""
+    name = re.sub(ILLEGAL_CHARS, "_", str(name)).strip().strip(".")
     return name or "未分类"
 
 
-def match_files(stems, result):
-    """把 {流派: [{song, artist}]} 映射回文件名主干，返回 {主干: 流派}。
-
-    匹配规则：song 必须是文件名主干的子串；artist 非「未知」时也必须是子串。
-    无法唯一匹配的条目会打印警告并跳过。
-    """
-    matched = {}
-    for category, entries in result.items():
-        for entry in entries:
-            song = str(entry.get("song", "")).strip()
-            artist = str(entry.get("artist", "")).strip()
-            candidates = []
-            for stem in stems:
-                if stem in matched:
-                    continue
-                if song and song not in stem:
-                    continue
-                if artist and artist != "未知" and artist not in stem:
-                    continue
-                candidates.append(stem)
-            if len(candidates) == 1:
-                matched[candidates[0]] = category
-            else:
-                print(f"[警告] 无法唯一匹配：song={song!r}, artist={artist!r}，已跳过")
-    return matched
-
-
 def main():
-    dry_run = "--dry-run" in sys.argv
-
-    filenames = get_mp3_files()
-    if not filenames:
-        print("没有找到任何 .mp3 文件")
-        return
-
     if not os.path.exists(RESULT_FILE):
         print(f"未找到分类结果文件：{RESULT_FILE}")
         print("请先运行：python classify.py")
@@ -76,27 +41,44 @@ def main():
     with open(RESULT_FILE, encoding="utf-8") as f:
         result = json.load(f)
 
-    stem_to_file = {strip_mp3_ext(f): f for f in filenames}
-    matched = match_files(list(stem_to_file.keys()), result)
-    if not matched:
-        print("没有匹配到任何可移动的文件")
+    if not result:
+        print("分类结果为空，没有可移动的文件")
         return
 
     moved = 0
-    for stem, category in matched.items():
-        folder = safe_folder_name(category)
-        dst_dir = os.path.join(MUSIC_DIR, folder)
-        filename = stem_to_file[stem]
-        if dry_run:
-            print(f"[预览] {filename} -> {folder}/")
+    skipped = 0
+    for file_path, genres in result.items():
+        # 取曲风数组第一个标签作为目标文件夹名
+        if isinstance(genres, list) and genres:
+            folder = safe_folder_name(genres[0])
+        elif isinstance(genres, str) and genres.strip():
+            folder = safe_folder_name(genres)
         else:
-            os.makedirs(dst_dir, exist_ok=True)
-            shutil.move(os.path.join(MUSIC_DIR, filename), os.path.join(dst_dir, filename))
-            print(f"移动：{filename} -> {folder}/")
-        moved += 1
+            print(f"[警告] 曲风为空，跳过：{file_path}")
+            skipped += 1
+            continue
 
-    action = "预览" if dry_run else "移动"
-    print(f"\n完成，共{action} {moved} 首歌。")
+        src = os.path.normpath(file_path)
+        dst_dir = os.path.join(MUSIC_DIR, folder)
+        dst = os.path.join(dst_dir, os.path.basename(src))
+
+        print(f"{file_path} -> {folder}/")
+
+        if os.path.normcase(src) == os.path.normcase(dst):
+            print("  已在目标文件夹，跳过")
+            skipped += 1
+            continue
+
+        try:
+            os.makedirs(dst_dir, exist_ok=True)
+            shutil.move(src, dst)
+            print(f"  移动：{src} -> {dst}")
+            moved += 1
+        except Exception as e:
+            print(f"[警告] 移动失败：{file_path}（{e}）")
+            skipped += 1
+
+    print(f"\n完成，共移动 {moved} 首，跳过 {skipped} 首。")
 
 
 if __name__ == "__main__":
